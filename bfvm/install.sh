@@ -1,0 +1,1 @@
+sudo ln -s /home/kiraind/Projects/brainfrick/bfvm/target/release/bfvm /usr/local/bin/brainfrick

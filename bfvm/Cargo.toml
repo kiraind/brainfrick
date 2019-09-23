@@ -1,0 +1,7 @@
+[package]
+name = "bfvm"
+version = "0.1.0"
+authors = ["Alexei Paksevatkin <ne.eshte@otso.city>"]
+edition = "2018"
+
+[dependencies]
