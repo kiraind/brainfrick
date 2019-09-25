@@ -5,7 +5,8 @@ pub enum Instruction {
     Add(u8),
     Subtract(u8),
     Move(isize),
-    Loop(usize),
+    LoopStart(usize),
+    LoopEnd(usize),
     Write,
     Read
 }
@@ -41,15 +42,29 @@ pub fn parse(code: &String) -> Result< Vec<Instruction>, &str > {
             '<' => code.push(
                 Instruction::Move( -(count as isize) )
             ),
-            '[' => stack.push(
-                code.len()
-            ),
-            ']' => code.push(
-                Instruction::Loop(match stack.pop() {
-                    Some(v) => v,
-                    None => return Err("Mismatched parenthesis")
-                })
-            ),
+            '[' => for _i in 0..count {
+                stack.push(code.len());
+
+                code.push(
+                    Instruction::LoopStart( 0 )
+                )
+            },
+            ']' => for _i in 0..count {
+                match stack.pop() {
+                    Some(v) => {
+                        // добавить указатель на соответствующую `[`
+                        code.push(
+                            Instruction::LoopEnd(v)
+                        );
+
+                        // добавить указатель сюда в соответствующую `[`
+                        code[v] = Instruction::LoopStart(
+                            code.len()
+                        )
+                    },
+                    None => return Err("Mismatched parenthesis (closing `]` without corresponding `[`)")
+                }
+            },
             '.' => for _i in 0..count {
                 code.push(
                     Instruction::Write
@@ -65,7 +80,7 @@ pub fn parse(code: &String) -> Result< Vec<Instruction>, &str > {
     }
 
     if stack.len() > 0 {
-        Err("Mismatched parenthesis")
+        Err("Mismatched parenthesis (missing `]` at the file end)")
     } else {
         Ok(code)
     }
@@ -110,7 +125,12 @@ impl BrainfrickExecutor for Machine {
                 Instruction::Move(vector) => {
                     memory_pointer = (memory_pointer as isize + *vector) as usize % self.memory.len();
                 },
-                Instruction::Loop(position) => {
+                Instruction::LoopStart(position) => {
+                    if self.memory[ memory_pointer ] == 0 {
+                        instruction_pointer = *position;
+                    }
+                },
+                Instruction::LoopEnd(position) => {
                     if self.memory[ memory_pointer ] != 0 {
                         instruction_pointer = *position;
                     }
