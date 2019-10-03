@@ -299,20 +299,41 @@ function parser(tokens) {
         tokens.shift()
     }
 
-    // console.log({
-    //     dependencies,
-    //     declarations,
-    //     implementations,
-    // // })
-    // console.log('dependencies: ', dependencies)
-    // console.log('declarations: ', declarations)
-    // console.log('implementations: ', implementations)
-    // console.log('implementations: ', JSON.stringify(implementations, null, 4) )
+    const variables = {}
+    const macros = {}
+
+    declarations.forEach(decl => {
+        if(decl.type === 'macro') {
+            const impl = implementations.find(
+                impl => impl.name === decl.name
+            )
+
+            if(!impl) {
+                throw new Error(`Found no implementation for declared macro '${decl.name}'`)
+            }
+
+            macros[
+                decl.name
+            ] = {
+                name: decl.name,
+                args: decl.args,
+                commands: impl.commands,
+            }
+        } else {
+            // variable
+            variables[
+                decl.name
+            ] = {
+                name: decl.name,
+                size: decl.size,
+            }
+        }
+    })
 
     return new Module(
+        variables,
+        macros,
         dependencies,
-        declarations,
-        implementations,
     )
 }
 

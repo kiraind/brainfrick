@@ -1,12 +1,8 @@
 class Module {
-    constructor(
-        dependencies,
-        declarations,
-        implementations
-    ) {
-        this.dependencies    = dependencies
-        this.declarations    = declarations
-        this.implementations = implementations
+    constructor(variables, macros, dependencies) {
+        this.variables    = variables
+        this.macros       = macros
+        this.dependencies = dependencies
     }
 }
 
