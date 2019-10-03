@@ -1,0 +1,30 @@
+# Standard library for Brainsmart macro br assembler
+
+incl { }
+
+decl {
+    !while($cond), # + implicit $code argument
+    !unsafe, # + implicit $code argument
+}
+
+impl {
+    !unsafe {
+        .unsafe;
+        %code;
+        .safe;
+    }
+    
+    !while {
+        @$cond;
+        !unsafe {
+            .ls;
+        }
+        
+            %code;
+
+        @$cond;
+        !unsafe {
+            .le;
+        }
+    }
+}

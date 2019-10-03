@@ -2,7 +2,7 @@
 
 incl {
     # imported modules e. g. `lib/math` will be expected in `./lib/math.bs`
-    std,
+    lib/std,
 }
 
 decl {

@@ -1,12 +1,13 @@
-const fs = require('fs')
+const path = require('path')
 
-const lexer = require('./src/lexer.js')
-const parser = require('./src/parser.js')
+const loader = require('./src/loader.js')
 
-const tokens = lexer(
-    fs.readFileSync('./samples/test.bs', 'utf8')
+// $ node . ./samples/test.bs
+const root_file = path.resolve(
+    process.cwd(),
+    process.argv[2]
 )
 
-const mod = parser(tokens)
+const modules = loader(root_file)
 
-console.log(mod)
+console.log(modules)
