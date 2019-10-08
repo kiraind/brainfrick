@@ -50,6 +50,12 @@ class Basic extends Command {
             throw new Error(`Unknown command '${cmd}' at line ${line} col ${col}`)
         }
     }
+
+    get name() {
+        return Object.keys(BASIC_COMMANDS).find(
+            key => BASIC_COMMANDS[key] === this.type
+        ) 
+    }
 }
 
 class CodeSubstitute extends Command {

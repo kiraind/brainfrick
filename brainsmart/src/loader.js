@@ -15,6 +15,10 @@ function loader(root_path) {
     while( queue_to_load.length > 0 ) {
         const current_path = queue_to_load.shift()
 
+        if(!fs.existsSync(current_path)) {
+            throw new Error(`File '${current_path}' not found`)
+        }
+
         const tokens = lexer(
             fs.readFileSync(current_path, 'utf8')
         )

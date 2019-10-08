@@ -6,66 +6,30 @@ incl {
 }
 
 decl {
-    # declarations of variables (relative labeled bytes), must begin with @
-    @foo,
-    @bar,
+    @count,
+    @char,
 
-    # arrays with static size and indexing are possible
-    @baz[16],
-
-    # macro declarations begin with !
-    !test($arg1, $arg2), # + implicit $code argument
-    
-    # in root module main macro should be defined
     !main,
 }
 
 impl {
-    # code here
-    
-    !test {
-        # macro should state current cell
-        @$arg1;
-
-        # basic bf code
-        .inc;
-        .dec;
-        .add 'A';
-        .sub  3;
-        .in;
-        .out;
-
-        # unsafe blocks with unsafe code (must be preserving mem ptr)
-        !unsafe {
-            .mov  5;
-            .mov -5;
-            
-            .ls; # loop start
-                .sub 1;
-            .le; # loop end
-        }
-
-        # simple composite instructions
-        .set '*'; # `[-]` and then `.add 'A'`
-
-        # built-in macros
-
-        !while(bar) {
-            # code argument passed here
-
-            @$arg2;
-            .out;
-
-            @bar;
-            .sub 1;
-        }
-
-        %code;
-    }
-
     !main {
-        !test(foo, '\n') {
+        @count;
+        .set 10;
+
+        @char;
+        .set '+';
+
+        !while(count) {
+            @char;
             .out;
+
+            @count;
+            .dec;
         }
+
+        @char;
+        .set '\n';
+        .out;
     }
 }
