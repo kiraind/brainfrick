@@ -15,10 +15,10 @@ decl {
 impl {
     !main {
         @count;
-        .set 10;
+        .set 5;
 
         @char;
-        .set '+';
+        .set 'F';
 
         !while(count) {
             @char;

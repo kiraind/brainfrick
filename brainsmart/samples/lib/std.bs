@@ -4,6 +4,7 @@ incl { }
 
 decl {
     !while($cond), # + implicit $code argument
+    !for($count), # + implicit $code argument
     !unsafe, # + implicit $code argument
 }
 
@@ -23,6 +24,21 @@ impl {
             %code;
 
         @$cond;
+        !unsafe {
+            .le;
+        }
+    }
+
+    !for {
+        @$count;
+        !unsafe {
+            .ls;
+        }
+        
+            %code;
+
+        @$count;
+        .dec;
         !unsafe {
             .le;
         }

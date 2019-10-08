@@ -58,6 +58,8 @@ class Basic extends Command {
     }
 }
 
+Basic.COMMANDS = BASIC_COMMANDS
+
 class CodeSubstitute extends Command {
     constructor(line, col) {
         super(line, col, [])

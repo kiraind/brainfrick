@@ -1,0 +1,88 @@
+incl {
+    lib/std,
+}
+
+decl {
+    @repeat,
+
+    @n,
+    @char1,
+    @char2,
+    @char3,
+    @char4,
+
+    !main,
+}
+
+impl {
+    !main {
+        @repeat;
+        .set 5;
+
+        !for(repeat) {
+            @char1;
+            .set 0;
+            @char2;
+            .set 0;
+            @char3;
+            .set 0;
+            @char4;
+            .set 0;
+
+            @n;
+            .set 10;
+
+            !for(n) {
+                @char1;
+                .add 7;
+
+                @char2;
+                .add 10;
+
+                @char3;
+                .add 3;
+
+                @char4;
+                .inc;
+            }
+
+            @char1;
+            .add 2;
+            .out;
+
+            @char2;
+            .inc;
+            .out;
+            .add 7;
+            .out;
+            .out;
+            .add 3;
+            .out;
+
+            @char3;
+            .add 2;
+            .out;
+
+            @char1;
+            .add 15;
+            .out;
+
+            @char2;
+            .out;
+            .add 3;
+            .out;
+            .sub 6;
+            .out;
+            .sub 8;
+            .out;
+
+            @char3;
+            .inc;
+            .out;
+
+            @char4;
+            .out;
+        }
+
+    }
+}

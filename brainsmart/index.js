@@ -1,7 +1,9 @@
 const path = require('path')
+const fs   = require('fs')
 
-const loader   = require('./src/loader.js')
-const assemble = require('./src/assembler.js')
+const loader    = require('./src/loader.js')
+const assemble  = require('./src/assemble.js')
+const translate = require('./src/translate.js')
 
 // $ node . ./samples/test.bs
 const root_file = path.resolve(
@@ -44,7 +46,7 @@ const commands = assemble({
     macros
 })
 
-console.log( commands )
+// console.log( commands )
 
 // commands.forEach(cmd => console.log(
 //     `.${cmd.name} ${
@@ -54,3 +56,13 @@ console.log( commands )
 //         ).join(' ')
 //     }`
 // ))
+// console.log(variables)
+const code = translate( commands, variables )
+
+// console.log(code)
+
+fs.writeFileSync(
+    'out.b',
+    code,
+    'utf8',
+)
