@@ -1,0 +1,48 @@
+incl {
+    std,
+}
+
+decl {
+    !mul8($a, $b, $res),
+}
+
+impl {
+    !mul8 {
+        @__cache0;
+        .set 0;
+        @__cache1;
+        .set 0;
+
+        @$res;
+        .set 0;
+
+        # a times
+        !for($a) {
+            # for preserving a
+            @__cache0;
+            .inc;
+
+            # add b to res
+            !for($b) {
+                @$res;
+                .inc;
+
+                # for preserving b
+                @__cache1;
+                .inc;
+            }
+
+            # restore b
+            !for(__cache1) {
+                @$b;
+                .inc;
+            }
+        }
+
+        # restore a
+        !for(__cache0) {
+            @$a;
+            .inc;
+        }
+    }
+}

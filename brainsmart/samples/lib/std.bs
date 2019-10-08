@@ -3,6 +3,11 @@
 incl { }
 
 decl {
+    @__cache0,
+    @__cache1,
+    @__cache2,
+    @__cache3,
+
     !while($cond), # + implicit $code argument
     !for($count), # + implicit $code argument
     !unsafe, # + implicit $code argument

@@ -1,0 +1,23 @@
+incl {
+    lib/math,
+}
+
+decl {
+    @from1,
+    @from2,
+    @to,
+
+    !main,
+}
+
+impl {
+    !main {
+        @from1;
+        .set 5;
+
+        @from2;
+        .set 5;
+
+        !mul8(from1, from2, to);
+    }
+}

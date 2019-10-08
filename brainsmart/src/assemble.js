@@ -73,7 +73,28 @@ function resolve_commands({
                         if(arg.resolved) {
                             return arg
                         } else {
-                            throw new Error('Not implemented')
+                            const {
+                                name,
+                                line,
+                                col,
+                            } = arg
+        
+                            const argindex = macros[macro].args.findIndex(arg => arg === name)
+        
+                            if( argindex === -1 ) {
+                                throw new Error(`macro argument '${name}' not defined for line ${line} col ${col}`)
+                            }
+        
+                            const pasted = args[ argindex ]
+        
+                            // console.log( command.argv[i] )
+                            return new Argument(
+                                true,
+                                line,
+                                col,
+                                pasted.str,
+                                pasted.type,
+                            )
                         }
                     }),
                     codearg: resolve_commands({
