@@ -4,7 +4,9 @@ incl {
 
 decl {
     !add8($a, $b),
+    !sub8($a, $b),
     !mul8($a, $b),
+    !div8($a, $b),
 }
 
 impl {
@@ -16,6 +18,27 @@ impl {
         !for($b) {
             @$a;
             .inc;
+
+            # for preserving b
+            @__cache0;
+            .inc;
+        }
+
+        # restore b
+        !for(__cache0) {
+            @$b;
+            .inc;
+        }
+    }
+
+    !sub8 {
+        @__cache0;
+        .set 0;
+
+        # add b to a
+        !for($b) {
+            @$a;
+            .dec;
 
             # for preserving b
             @__cache0;
@@ -42,6 +65,76 @@ impl {
         # a times add b to a
         !for(__cache1) {
             !add8($a, $b);
+        }
+    }
+
+    !div8 {
+        @__cache0;
+        .set 0;
+        @__cache1;
+        .set 0;
+        @__cache2;
+        .set 0;
+        @__cache3;
+        .set 0;
+
+        !for($a) {
+            @__cache0;
+            .inc;
+        }
+
+        !while(__cache0) {
+            !for($b) {
+                @__cache1;
+                .inc;
+                @__cache2;
+                .inc;
+            }
+
+            !for(__cache2) {
+                @$b;
+                .inc;
+            }
+
+            !for(__cache1) {
+                @__cache2;
+                .inc;
+
+                @__cache0;
+                .dec;
+
+                !for(__cache0) {
+                    @__cache2;
+                    .set 0;
+
+                    @__cache3;
+                    .inc;
+                }
+
+                !for(__cache3) {
+                    @__cache0;
+                    .inc;
+                }
+
+                !for(__cache2) {
+                    @__cache1;
+                    .dec;
+
+                    !while(__cache1) {
+                        @$a;
+                        .dec;
+
+                        @__cache1;
+                        .set 0;
+                    }
+
+                    @__cache1;
+                    .inc;
+                }
+            }
+
+            @$a;
+            .inc;
         }
     }
 }

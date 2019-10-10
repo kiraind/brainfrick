@@ -1,35 +1,25 @@
-# sample of Brainsmart code
-
 incl {
-    # imported modules e. g. `lib/math` will be expected in `./lib/math.bs`
-    lib/std,
+    lib/math,
 }
 
 decl {
-    @count,
-    @char,
+    @from1,
+    @from2,
+    
 
     !main,
 }
 
 impl {
     !main {
-        @count;
-        .set 5;
+        @from1;
+        .set 15;
 
-        @char;
-        .set 'F';
+        @from2;
+        .set -4;
 
-        !while(count) {
-            @char;
-            .out;
+        !div8(from1, from2);
 
-            @count;
-            .dec;
-        }
-
-        @char;
-        .set '\n';
-        .out;
+        @from1;
     }
 }
