@@ -3,13 +3,55 @@ incl {
 }
 
 decl {
+    # bitwise 8-bit
+    !not8($a),
+
+    # arithmetic 8-bit
+    !neg8($a),
     !add8($a, $b),
     !sub8($a, $b),
-    !mul8($a, $b),
-    !div8($a, $b),
+    !mul8($a, $b), # unsigned
+    !div8($a, $b), # unsigned
 }
 
 impl {
+    # bitwise 8-bit
+
+    !not8 {
+        @__cache0;
+        .set 0;
+
+        @$a;
+        .inc;
+        
+        !for($a) {
+            @__cache0;
+            .dec;
+        }
+
+        !for(__cache0) {
+            @$a;
+            .inc;
+        }
+    }
+
+    # arithmetic 8-bit
+
+    !neg8 {
+        @__cache0;
+        .set 0;
+
+        !for($a) {
+            @__cache0;
+            .inc;
+        }
+
+        !for(__cache0) {
+            @$a;
+            .dec;
+        }
+    }
+
     !add8 {
         @__cache0;
         .set 0;
@@ -120,12 +162,9 @@ impl {
                     @__cache1;
                     .dec;
 
-                    !while(__cache1) {
+                    !if(__cache1) {
                         @$a;
                         .dec;
-
-                        @__cache1;
-                        .set 0;
                     }
 
                     @__cache1;

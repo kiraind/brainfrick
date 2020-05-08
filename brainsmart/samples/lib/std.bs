@@ -9,8 +9,9 @@ decl {
     @__cache3,
 
     !while($cond), # + implicit $code argument
-    !for($count), # + implicit $code argument
-    !unsafe, # + implicit $code argument
+    !if($cond),
+    !for($count),
+    !unsafe,
 }
 
 impl {
@@ -29,6 +30,21 @@ impl {
             %code;
 
         @$cond;
+        !unsafe {
+            .le;
+        }
+    }
+
+    !if {
+        @$cond;
+        !unsafe {
+            .ls;
+        }
+        
+            %code;
+
+        @$cond;
+        .set 0;
         !unsafe {
             .le;
         }
